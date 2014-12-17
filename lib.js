@@ -59,13 +59,24 @@ Object.extend(Array.prototype, {
         }
         return false;
     },
+    last: function() {
+      if (this.length == 0) return undefined;
+      return this[this.length-1];
+    }
 })
 
 Object.extend(Array, {
-  range: function(from, to) {
-    // return array [from, to)
+  range: function(from) {
+    // return array [from, to) or [0, from) in absense of to
+
     // zero is invalid increment and is the only falsy number
     var increment = arguments[2] || 1;
+
+    var to = arguments[1];
+    if (to == undefined) {
+      to = from;
+      from = 0;
+    }
     if (from > to && increment > 0) {
       throw new Error('For a range from ' + from + ' to ' + to + ' increment need be negative.'); }
     var result = []
