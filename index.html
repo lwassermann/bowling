@@ -22,22 +22,11 @@ function initializeFrameTable(domNode) {
 }
 
 function initializeTableHead(headRow) {
-  var name = document.createElement('th');
-  name.innerHTML = 'Name';
-  headRow.appendChild(name);
-
-  // 11 frames, rolls will not get their differenced table columns for now because of strikes
-  Array.range(1, 12).forEach(function(i) {
+  ['Name'].concat(Array.range(1, 11)).concat(['', 'total score']).forEach(function(ea) {
     var th = document.createElement('th');
-    th.innerHTML = i + '';
+    th.appendChild(document.createTextNode(ea));
     headRow.appendChild(th);
   })
-
-  // the last frame is unnamed
-  headRow.children[headRow.children.length - 1].innerHTML = '';
-  var total = document.createElement('th');
-  total.innerHTML = 'total score';
-  headRow.appendChild(total);
 }
 
     </script>
