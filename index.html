@@ -10,6 +10,36 @@
     <canvas id="canvas" touch-action="none" tabindex="0"></canvas>
     <script>
 
+var visualization = document.getElementById('canvas');
+var scores = document.getElementById('scoring');
+
+initializeFrameTable(scores);
+
+function initializeFrameTable(domNode) {
+  var tableHead = document.createElement('tr');
+  initializeTableHead(tableHead);
+  domNode.appendChild(tableHead);
+}
+
+function initializeTableHead(headRow) {
+  var name = document.createElement('th');
+  name.innerHTML = 'Name';
+  headRow.appendChild(name);
+
+  // 11 frames, rolls will not get their differenced table columns for now because of strikes
+  Array.range(1, 12).forEach(function(i) {
+    var th = document.createElement('th');
+    th.innerHTML = i + '';
+    headRow.appendChild(th);
+  })
+
+  // the last frame is unnamed
+  headRow.children[headRow.children.length - 1].innerHTML = '';
+  var total = document.createElement('th');
+  total.innerHTML = 'total score';
+  headRow.appendChild(total);
+}
+
     </script>
   </body>
 </html>
