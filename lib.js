@@ -1,4 +1,5 @@
-// Library function for code structuring
+// Library functions for code structuring & language extensions
+
 // copies all properties from the second argument into the first argument, including getters and setters
 Object.extend = Object.extend || function (destination, source) {
   for (var property in source) {
