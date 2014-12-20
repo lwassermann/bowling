@@ -42,11 +42,26 @@ Object.extend(bowling.Player.prototype, {
         var frameNr = this.currentRoll[0], roll = this.currentRoll[1];
         if (frameNr < 0) {
             throw new Error(this.name + ' can not roll again.') };
-        var availablePins = roll == 0 ? 10 : (10 - this.frames[frameNr][0]);
-        this.frames[frameNr][roll] = Math.floor(Math.random() * (availablePins + 1));
+        var availablePins;
+        if (roll == 0) { availablePins = 10
+        } else {
+            var frame = frameNr == 10 ? this.bonusRolls : this.frames[frameNr];
+            availablePins = 10 - frame[0];
+            // in bonus, you get 10 new pins for the second bonus roll if strike
+            if (availablePins == 0) { availablePins = 10; }
+        }
+        var felledPins = Math.floor(Math.random() * (availablePins + 1));
+        if (frameNr != 10) {
+            this.frames[frameNr][roll] = felledPins;
+        } else {
+            this.bonusRolls[roll] = felledPins;
+        }
 
         // now, advance the currentRoll pointer
-        if (roll == 0 && this.frames[frameNr].reduce(Functions.plus) != 10) {
+
+        var spareOrStrike = frameNr < 10
+                && this.frames[frameNr].reduce(Functions.plus) == 10;
+        if (roll == 0 && !spareOrStrike) {
             // advance rolls
             this.currentRoll[1] = 1;
             // if we are in bonus rolls and the last frame was not a strike
