@@ -38,11 +38,31 @@ PlayerTest = function() {};
 
 PlayerTest.prototype = new Test();
 Object.extend(PlayerTest.prototype, {
-	testScoring: function() {
+	testNaiveScoring: function() {
 		var p = new bowling.Player();
 		this.assert(p.score() == 0);
-		p.frames[0][1] = 5;
+		p.frames[0][0] = 5;
 		this.assert(p.score() == 5);
+	},
+	testSpareScoring: function() {
+		var p = new bowling.Player();
+		this.assert(p.score() == 0);
+		p.frames[0][0] = 5;
+		p.frames[0][1] = 5;
+		this.assert(p.score() == 10);
+		p.frames[1][0] = 5;
+		// the 5 of frame two counts twice
+		this.assert(p.score() == 20);
+	},
+	testStrikeScoring: function() {
+		var p = new bowling.Player();
+		this.assert(p.score() == 0);
+		p.frames[0][0] = 10;
+		this.assert(p.score() == 10);
+		p.frames[1][0] = 5;
+		this.assert(p.score() == 20);
+		p.frames[1][1] = 2;
+		this.assert(p.score() == 24);
 	}
 });
 
