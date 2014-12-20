@@ -62,6 +62,11 @@ Object.extend(Array.prototype, {
     last: function() {
       if (this.length == 0) return undefined;
       return this[this.length-1];
+    },
+    invoke: function(methodName) {
+      return this.map(function(ea) {
+        return ea[methodName]();
+      })
     }
 })
 
@@ -90,3 +95,26 @@ Object.extend(Array, {
 var Functions = Functions || {};
 Functions.plus = function(a, b) { return a + b; };
 Functions.id = function(a) { return a; };
+
+// functions for random colors for the visualization
+// copied from/inspired by http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
+randomColor = function() {
+  var that = randomColor,
+    hsvToRgb = function(h, s, v) {
+      h_i = Math.floor(h * 6);
+      f = h * 6 - h_i;
+      p = v * (1 - s);
+      q = v * (1 - f*s);
+      t = v * (1 - (1 - f) * s);
+      if (h_i == 0) { return [v, t, p]; }
+      if (h_i == 1) { return [q, v, p]; }
+      if (h_i == 2) { return [p, v, t]; }
+      if (h_i == 3) { return [p, q, v]; }
+      if (h_i == 4) { return [t, p, v]; }
+      if (h_i == 5) { return [v, p, q]; }
+    };
+  that.h = (that.h + that.golden_ratio_conjugate) % 1;
+  return hsvToRgb(that.h, 0.5, 0.95)
+}
+randomColor.h = Math.random();
+randomColor.golden_ratio_conjugate = 0.618033988749895;

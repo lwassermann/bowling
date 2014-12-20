@@ -17,17 +17,13 @@ var scores = document.getElementById('scoring');
 initializeFrameTable(scores);
 
 function initializeFrameTable(domNode) {
-  var tableHead = document.createElement('tr');
-  initializeTableHead(tableHead);
-  domNode.appendChild(tableHead);
-}
-
-function initializeTableHead(headRow) {
+  var headRow = document.createElement('tr');
   ['Name'].concat(Array.range(1, 11)).concat(['', 'total score']).forEach(function(ea) {
     var th = document.createElement('th');
     th.appendChild(document.createTextNode(ea));
     headRow.appendChild(th);
   })
+  domNode.appendChild(headRow);
 }
 
     </script>
