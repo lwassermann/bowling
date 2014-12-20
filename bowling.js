@@ -12,7 +12,7 @@ bowling.Player = function (optName) {
     // associate business logic, i.e. players with visualizations, i.e. HTML
     // nodes in another way.
     this.renderContext = bowling.createRow();
-    this.color = randomColor();
+    this.color = Color.random();
     return this;
 };
 
@@ -38,12 +38,21 @@ Object.extend(bowling.Player.prototype, {
         }, { sum: 0, nextRolls: this.bonusRolls}).sum
     },
     render: function() {
+        this.renderColor(this.renderContext.children[0]);
         var content = [this.name]
             .concat(this.frames)
             .concat([this.bonusRolls, this.score()]);
         content.forEach(function(ea, idx) {
-            this.renderContext.children[idx].innerHTML = content[idx];
+            this.renderContext.children[idx + 1].innerHTML = content[idx];
         }, this);
+    },
+    renderColor: function(htmlNode) {
+        while (htmlNode.lastChild) {
+            htmlNode.removeChild(htmlNode.lastChild);
+        }
+        var color = document.createElement('colorLegend');
+        color.style.backgroundColor = Color.intToStr(this.color);
+        htmlNode.appendChild(color);
     }
 });
 
@@ -72,7 +81,7 @@ updateVisualization = function() {
 
 bowling.createRow = function(optContent) {
     var tr = document.createElement('tr');
-    Array.range(13).forEach(function(ea) {
+    Array.range(14).forEach(function(ea) {
         var td = document.createElement('td');
         td.appendChild(document.createTextNode(optContent && optContent[ea] || ''));
         tr.appendChild(td);

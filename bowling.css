@@ -1,9 +1,19 @@
+body {
+	font-size: 100.1%;
+	font-family: sans-serif;
+}
+
 scoring {
 	display: table;
 }
 th {
-	min-width: 2em;
 	border-bottom: 1px solid black;
+	text-align: center;
+	min-width: 1.5em;
+}
+
+td {
+	text-align: center;
 }
 
 testresults {
@@ -12,7 +22,6 @@ testresults {
 	position: fixed;
 	bottom: 1em;
 	right: 1em;
-	font-family: sans-serif;
 	color: white;
 }
 testresults.success {
@@ -20,4 +29,11 @@ testresults.success {
 }
 testresults.failed {
 	background-color: red;
+}
+colorlegend {
+	margin: .3em .3em 0 .5em;
+	width: .7em;
+	height: .7em;
+	display: block;
+	background-color: black;
 }
