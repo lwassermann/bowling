@@ -9,8 +9,8 @@ bowling.Player = function (optName) {
 
     // In this implementation, every player has her own row. In the interest
     // of distributing concerns, an implementation with more future should
-    // associate business logic, i.e. players with visualizations, i.e. HTML
-    // nodes in another way.
+    // associate business logic, i.e. players & rolls, with visualizations, i.e. HTML
+    // nodes, in another way.
     this.renderContext = bowling.createRow();
     this.color = Color.random();
     return this;
@@ -37,6 +37,36 @@ Object.extend(bowling.Player.prototype, {
             }
         }, { sum: 0, nextRolls: this.bonusRolls}).sum
     },
+
+    randomRoll: function() {
+        var frameNr = this.currentRoll[0], roll = this.currentRoll[1];
+        if (frameNr < 0) {
+            throw new Error(this.name + ' can not roll again.') };
+        var availablePins = roll == 0 ? 10 : (10 - this.frames[frameNr][0]);
+        this.frames[frameNr][roll] = Math.floor(Math.random() * (availablePins + 1));
+
+        // now, advance the currentRoll pointer
+        if (roll == 0 && this.frames[frameNr].reduce(Functions.plus) != 10) {
+            // advance rolls
+            this.currentRoll[1] = 1;
+            // if we are in bonus rolls and the last frame was not a strike
+            if (frameNr == 10 && this.frames[9][1] != 0) {
+                this.currentRoll = [-1, 0];
+            }
+        } else {
+            // advance frames
+            this.currentRoll = [frameNr + 1, 0];
+            // if we are in bonus rolls and the last frame is neither strike nor spare
+            if (frameNr == 9 && this.frames[9].reduce(Functions.plus) < 10) {
+                this.currentRoll = [-1, 0];
+            }
+            if (frameNr == 10) {
+                this.currentRoll = [-1, 0];
+            }
+        }
+        updateVisualization();
+    },
+
     render: function() {
         this.renderColor(this.renderContext.children[0]);
         var content = [this.name]
