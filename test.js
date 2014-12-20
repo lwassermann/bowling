@@ -12,10 +12,10 @@ Object.extend(Test.prototype, {
 	run: function() {
 		var result = {success: 0, failed: 0, errors:[]},
 			testCase = this;
-		// ToDo: look up property collection along the prototype chain
-		var testNames = Object.keys(this.__proto__).filter(function(ea) {
-			return ea.indexOf('test') == 0;
-		});
+		var testNames = [];
+		for (var propertyName in testCase) {
+			if (propertyName.indexOf('test') == 0) {
+				testNames.push(propertyName); }}
 		testNames.forEach(function(ea) {
 			try {
 				testCase.setup && testCase.setup()
@@ -48,7 +48,7 @@ Object.extend(PlayerTest.prototype, {
 
 
 // actually running the tests
-if (document.documentURI.indexOf('test=true') !== -1) {
+if (location.search.indexOf('test=true') !== -1) {
 	var resultsVisualization = document.createElement('testResults'),
 		// beware premature generalization:
 		//     stick with one test case class for the moment
