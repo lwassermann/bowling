@@ -69,12 +69,16 @@ Object.extend(bowling.Player.prototype, {
 
     render: function() {
         this.renderColor(this.renderContext.children[0]);
-        var content = [this.name]
-            .concat(this.frames)
-            .concat([this.bonusRolls, this.score()]);
-        content.forEach(function(ea, idx) {
-            this.renderContext.children[idx + 1].innerHTML = content[idx];
-        }, this);
+        this.renderString(this.name, 1);
+        this.renderString(this.score(), 13);
+        this.frames.concat([this.bonusRolls]).slice(0, this.currentRoll[0] + 1)
+            .forEach(function(ea, idx) {
+                this.renderFrame(ea, idx + 2);
+            }, this)
+        this.renderInteractionButtons();
+    },
+    renderString: function(str, idx) {
+        this.renderContext.children[idx].innerHTML = str;
     },
     renderColor: function(htmlNode) {
         while (htmlNode.lastChild) {
@@ -83,13 +87,30 @@ Object.extend(bowling.Player.prototype, {
         var color = document.createElement('colorLegend');
         color.style.backgroundColor = Color.intToStr(this.color);
         htmlNode.appendChild(color);
+    },
+    renderFrame: function(frame, idx) {
+        this.renderContext.children[idx].innerHTML = frame;
+    },
+    renderInteractionButtons: function() {
+        var cell = this.renderContext.children[this.renderContext.children.length - 1];
+        while (cell.lastChild) {
+            cell.removeChild(cell.lastChild);
+        }
+        if (this.currentRoll[0] >= 0) {
+            var roll = document.createElement('button');
+            roll.innerText = 'roll';
+            roll.addEventListener('click', this.randomRoll.bind(this));
+            cell.appendChild(roll);
+        }
     }
 });
 
 bowling.addPlayer = function(optName) {
     var newPlayer = new bowling.Player(optName);
+
     scores.appendChild(newPlayer.renderContext);
     bowling.players.push(newPlayer);
+
     updateVisualization()
     return newPlayer;
 };
@@ -111,7 +132,8 @@ updateVisualization = function() {
 
 bowling.createRow = function(optContent) {
     var tr = document.createElement('tr');
-    Array.range(14).forEach(function(ea) {
+    var length = scores && scores.children[0] && scores.children[0].children.length || 0
+    Array.range(length).forEach(function(ea) {
         var td = document.createElement('td');
         td.appendChild(document.createTextNode(optContent && optContent[ea] || ''));
         tr.appendChild(td);
