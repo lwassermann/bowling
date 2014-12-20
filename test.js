@@ -53,6 +53,8 @@ Object.extend(PlayerTest.prototype, {
 		p.frames[1][0] = 5;
 		// the 5 of frame two counts twice
 		this.assert(p.score() == 20);
+		p.frames[1][1] = 3;
+		this.assert(p.score() == 23)
 	},
 	testStrikeScoring: function() {
 		var p = new bowling.Player();
