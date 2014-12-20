@@ -7,6 +7,7 @@
     <script src="lib.js"></script>
     <script src="bowling.js"></script>
     <scoring id="scoring"></scoring>
+    <button id='addPlayer'>Add Player</button><br />
     <canvas id="canvas" touch-action="none" tabindex="0"></canvas>
     <script>
 
@@ -25,7 +26,11 @@ function initializeFrameTable(domNode) {
     })
   domNode.appendChild(headRow);
 }
-bowling.addPlayer();
+
+document.getElementById('addPlayer').addEventListener('click', function(evt) {
+  var name = window.prompt('What is the nwe player name?', 'player ' + (bowling.players.length + 1))
+  bowling.addPlayer(name);
+})
 
     </script>
     <script src="test.js"></script>
