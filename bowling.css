@@ -5,3 +5,19 @@ th {
 	min-width: 2em;
 	border-bottom: 1px solid black;
 }
+
+testresults {
+	margin: 1em;
+	padding: 1em;
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+	font-family: sans-serif;
+	color: white;
+}
+testresults.success {
+	background-color: green;
+}
+testresults.failed {
+	background-color: red;
+}

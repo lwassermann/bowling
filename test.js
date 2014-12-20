@@ -55,6 +55,7 @@ if (location.search.indexOf('test=true') !== -1) {
 		result = new PlayerTest().run();
 
 	resultsVisualization.innerHTML = result.success + ':' + result.failed;
+	resultsVisualization.className = result.failed == 0 ? 'success' : 'failed';
 	document.body.appendChild(resultsVisualization);
 }
 

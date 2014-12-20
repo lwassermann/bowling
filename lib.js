@@ -86,3 +86,7 @@ Object.extend(Array, {
     return result;
   }
 })
+
+var Functions = Functions || {};
+Functions.plus = function(a, b) { return a + b; };
+Functions.id = function(a) { return a; };
