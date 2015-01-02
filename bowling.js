@@ -103,7 +103,7 @@ Object.extend(bowling.Player.prototype, {
         }
         if (this.currentRoll[0] >= 0) {
             var roll = document.createElement('button');
-            roll.innerText = 'roll';
+            roll.innerHTML = 'roll';
             roll.addEventListener('click', this.randomRoll.bind(this));
             cell.appendChild(roll);
         }

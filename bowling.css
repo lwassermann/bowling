@@ -5,6 +5,7 @@ body {
 
 scoring {
 	display: table;
+	empty-cells: show;
 }
 th {
 	border-bottom: 1px solid black;
