@@ -95,32 +95,3 @@ Object.extend(Array, {
 var Functions = Functions || {};
 Functions.plus = function(a, b) { return a + b; };
 Functions.id = function(a) { return a; };
-
-var Color = Color || {};
-// functions for random colors for the visualization
-// copied from/inspired by http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
-Color.random = function() {
-  var hsvToRgb = function(h, s, v) {
-      var h_i = Math.floor(h * 6),
-        f = h * 6 - h_i,
-        p = v * (1 - s),
-        q = v * (1 - f*s),
-        t = v * (1 - (1 - f) * s),
-        rgb;
-      if (h_i == 0) { rgb = [v, t, p]; }
-      if (h_i == 1) { rgb = [q, v, p]; }
-      if (h_i == 2) { rgb = [p, v, t]; }
-      if (h_i == 3) { rgb = [p, q, v]; }
-      if (h_i == 4) { rgb = [t, p, v]; }
-      if (h_i == 5) { rgb = [v, p, q]; }
-      return rgb.map(function(ea) { return Math.floor(ea * 255) });
-    };
-  this.h = (this.h + this.golden_ratio_conjugate) % 1;
-  return hsvToRgb(this.h, 0.5, 0.95)
-}
-Color.h = Math.random();
-Color.golden_ratio_conjugate = 0.618033988749895;
-
-Color.intToStr = function(rgb) {
-  return 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')';
-};

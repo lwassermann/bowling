@@ -8,17 +8,15 @@
     <script src="bowling.js"></script>
     <scoring id="scoring"></scoring>
     <button id='addPlayer'>Add Player</button><br />
-    <canvas id="canvas" touch-action="none" tabindex="0"></canvas>
     <script>
 
-var visualization = document.getElementById('canvas');
 var scores = document.getElementById('scoring');
 
 initializeFrameTable(scores);
 
 function initializeFrameTable(domNode) {
   var headRow = document.createElement('tr');
-  ['', 'Name'].concat(Array.range(1, 11)).concat(['', 'total score', ''])
+  ['Name'].concat(Array.range(1, 11)).concat(['', 'total score', ''])
     .forEach(function(ea) {
       var th = document.createElement('th');
       th.appendChild(document.createTextNode(ea));

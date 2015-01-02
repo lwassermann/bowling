@@ -12,7 +12,6 @@ bowling.Player = function (optName) {
     // associate business logic, i.e. players & rolls, with visualizations, i.e. HTML
     // nodes, in another way.
     this.renderContext = bowling.createRow();
-    this.color = Color.random();
     return this;
 };
 
@@ -83,25 +82,16 @@ Object.extend(bowling.Player.prototype, {
     },
 
     render: function() {
-        this.renderColor(this.renderContext.children[0]);
-        this.renderString(this.name, 1);
-        this.renderString(this.score(), 13);
+        this.renderString(this.name, 0);
+        this.renderString(this.score(), 12);
         this.frames.concat([this.bonusRolls]).slice(0, this.currentRoll[0] + 1)
             .forEach(function(ea, idx) {
-                this.renderFrame(ea, idx + 2);
+                this.renderFrame(ea, idx + 1);
             }, this)
         this.renderInteractionButtons();
     },
     renderString: function(str, idx) {
         this.renderContext.children[idx].innerHTML = str;
-    },
-    renderColor: function(htmlNode) {
-        while (htmlNode.lastChild) {
-            htmlNode.removeChild(htmlNode.lastChild);
-        }
-        var color = document.createElement('colorLegend');
-        color.style.backgroundColor = Color.intToStr(this.color);
-        htmlNode.appendChild(color);
     },
     renderFrame: function(frame, idx) {
         this.renderContext.children[idx].innerHTML = frame;
