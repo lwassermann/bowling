@@ -6,6 +6,8 @@
   <body>
     <script src="lib.js"></script>
     <script src="bowling.js"></script>
+    <h1> Bowling Scoring </h1>
+    <p> Any numbers can be changed by draging them left or right. </p>
     <scoring id="scoring"></scoring>
     <button id='addPlayer'>Add Player</button><br />
     <script>
@@ -27,6 +29,7 @@ document.getElementById('addPlayer').addEventListener('click', function(evt) {
   var name = window.prompt('What is the nwe player name?', 'player ' + (bowling.players.length + 1))
   bowling.addPlayer(name);
 })
+bowling.addPlayer('SomeDefaultPlayer');
 
     </script>
     <script src="test.js"></script>

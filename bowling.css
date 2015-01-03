@@ -15,6 +15,7 @@ th {
 
 td {
 	text-align: center;
+	min-width: 2em;
 }
 
 testresults {
