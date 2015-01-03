@@ -144,7 +144,30 @@ Object.extend(HTML, {
       return aNode;
     },
 
-    createNumber: function(n, onChange) {
-      return this.createElement('number', n + '');
+    createNumber: function(n, onChangeCb, min, max) {
+      var aNode = this.createElement('number', n + '');
+      aNode.initialValue = n;
+      aNode.lastValue = n;
+      aNode.addEventListener('mousedown', function(evt) {
+        HTML.createSwipeOverlay(function(x, y) {
+          var delta = Math.round((x - evt.screenX) / 10),
+            newValue = Math.max(min, Math.min(delta + aNode.initialValue, max));
+          if (newValue != aNode.lastValue) {
+            aNode.lastValue = newValue;
+            onChangeCb(newValue);
+          }
+        });
+      });
+      return aNode;
+    },
+    createSwipeOverlay: function(cb) {
+      var overlay = this.createElement('overlay');
+      overlay.addEventListener('mousemove', function(evt) {
+        cb(evt.screenX, evt.screenY);
+      });
+      overlay.addEventListener('mouseup', function(evt) {
+        overlay.parentNode.removeChild(overlay);
+      });
+      document.body.appendChild(overlay);
     }
 });

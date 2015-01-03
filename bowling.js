@@ -98,9 +98,12 @@ Object.extend(bowling.Player.prototype, {
     },
     renderFrame: function(frame, tableCell) {
         var numberElements = [
-                HTML.createNumber(frame[0], function(n) { frame[0] = n; }),
+                HTML.createNumber(frame[0], function(n) {
+                    frame[0] = n; updateVisualization(); }, 0, 10 - frame[1]),
                 document.createTextNode(' '),
-                HTML.createNumber(frame[1], function(n) { frame[1] = n; })];
+                HTML.createNumber(frame[1], function(n) {
+                    frame[1] = n; updateVisualization(); }, 0, 10 - frame[0])];
+        if (frame[0] == 10) numberElements = [numberElements[0]];
         // dirty hack because of changing abstractions
         if (this.frames[this.currentRoll[0]] == frame) {
             if (this.currentRoll[1] == 0) {
