@@ -31,3 +31,8 @@ testresults.success {
 testresults.failed {
 	background-color: red;
 }
+number {
+}
+number.currentRoll {
+	border: 1px solid black;
+}

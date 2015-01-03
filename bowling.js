@@ -100,7 +100,17 @@ Object.extend(bowling.Player.prototype, {
                 HTML.createNumber(frame[0], function(n) { frame[0] = n; }),
                 document.createTextNode(' '),
                 HTML.createNumber(frame[1], function(n) { frame[1] = n; })];
-        HTML.replaceContent(tableCell, numberElements);
+        // dirty hack because of changing abstractions
+        if (this.frames[this.currentRoll[0]] == frame) {
+            if (this.currentRoll[1] == 0) {
+                HTML.replaceContent(tableCell, numberElements[0]);
+            } else {
+                HTML.replaceContent(tableCell, numberElements);
+            }
+            tableCell.lastChild.className = 'currentRoll'
+        } else {
+            HTML.replaceContent(tableCell, numberElements);
+        }
     },
     renderInteractionButtons: function() {
         var cell = this.renderContext.children[this.renderContext.children.length - 1];
