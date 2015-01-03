@@ -31,10 +31,3 @@ testresults.success {
 testresults.failed {
 	background-color: red;
 }
-colorlegend {
-	margin: .3em .3em 0 .5em;
-	width: .7em;
-	height: .7em;
-	display: block;
-	background-color: black;
-}
