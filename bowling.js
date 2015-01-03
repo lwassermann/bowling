@@ -84,7 +84,8 @@ Object.extend(bowling.Player.prototype, {
     render: function() {
         HTML.replaceContent(this.renderContext.children[ 0], this.name);
         HTML.replaceContent(this.renderContext.children[12], this.score() + '');
-        this.frames.concat([this.bonusRolls]).slice(0, this.currentRoll[0] + 1)
+        var lastFrame = this.currentRoll[0] != -1 ? this.currentRoll[0] : 10;
+        this.frames.concat([this.bonusRolls]).slice(0, lastFrame + 1)
             .forEach(function(ea, idx) {
                 this.renderFrame(ea, this.renderContext.children[idx + 1]);
             }, this)
