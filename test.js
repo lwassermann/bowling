@@ -76,7 +76,6 @@ Object.extend(PlayerTest.prototype, {
 
 		p.frames[9] = [10, 0];
 		p.currentRoll = [10, 0];
-		debugger;
 		p.randomRoll();
 		this.assert(p.currentRoll[0] == 10);
 		this.assert(p.currentRoll[1] == 1);
