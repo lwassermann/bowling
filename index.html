@@ -26,7 +26,7 @@ function initializeFrameTable(domNode) {
 }
 
 document.getElementById('addPlayer').addEventListener('click', function(evt) {
-  var name = window.prompt('What is the nwe player name?', 'player ' + (bowling.players.length + 1))
+  var name = window.prompt('What is the new players name?', 'player ' + (bowling.players.length + 1))
   bowling.addPlayer(name);
 })
 bowling.addPlayer('SomeDefaultPlayer');

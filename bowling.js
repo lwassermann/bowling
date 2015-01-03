@@ -122,7 +122,13 @@ Object.extend(bowling.Player.prototype, {
         if (this.currentRoll[0] >= 0) {
             var roll = HTML.createElement('button', 'roll');
             roll.addEventListener('click', this.randomRoll.bind(this));
-            cell.appendChild(roll);
+            var that = this,
+                finish = HTML.createElement('button', 'finish');
+            finish.addEventListener('click', function() {
+                that.currentRoll = [-1, 0];
+                updateVisualization();
+            })
+            HTML.append(cell, [roll, finish]);
         }
     }
 });
