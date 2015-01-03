@@ -95,3 +95,56 @@ Object.extend(Array, {
 var Functions = Functions || {};
 Functions.plus = function(a, b) { return a + b; };
 Functions.id = function(a) { return a; };
+
+var HTML = HTML || {};
+Object.extend(HTML, {
+    createElement: function(name, content) {
+        var anElement = document.createElement(name);
+        this.append(anElement, content);
+        return anElement;
+    },
+    append: function(aNode, content) {
+        switch(typeof content) {
+            case 'string':
+                aNode.appendChild(document.createTextNode(content));
+                break;
+            case 'object':
+                if (Array.isArray(content)) {
+                    content.forEach(function(ea) {
+                        this.append(aNode, ea);
+                    }, this);
+                } else if (this.isNode(content)){
+                    aNode.appendChild(content);
+                }
+                break;
+            case 'undefined':
+            default:
+                break;
+        }
+    },
+    isNode: function (aNode){
+        // adapted from http://stackoverflow.com/questions/384286/javascript-isdom-how-do-you-check-if-a-javascript-object-is-a-dom-object
+        return (
+            typeof Node === "object"
+                ? aNode instanceof Node
+                : aNode && typeof aNode === "object"
+                    && typeof aNode.nodeType === "number"
+                    && typeof aNode.nodeName==="string"
+            );
+    },
+    clear: function(aNode) {
+      while (aNode.lastChild) {
+          aNode.removeChild(aNode.lastChild);
+      }
+      return aNode;
+    },
+    replaceContent: function(aNode, content) {
+      this.clear(aNode);
+      this.append(aNode, content);
+      return aNode;
+    },
+
+    createNumber: function(n, onChange) {
+      return this.createElement('number', n + '');
+    }
+});

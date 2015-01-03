@@ -82,28 +82,31 @@ Object.extend(bowling.Player.prototype, {
     },
 
     render: function() {
-        this.renderString(this.name, 0);
-        this.renderString(this.score(), 12);
+        HTML.replaceContent(this.renderContext.children[ 0], this.name);
+        HTML.replaceContent(this.renderContext.children[12], this.score() + '');
         this.frames.concat([this.bonusRolls]).slice(0, this.currentRoll[0] + 1)
             .forEach(function(ea, idx) {
-                this.renderFrame(ea, idx + 1);
+                this.renderFrame(ea, this.renderContext.children[idx + 1]);
             }, this)
         this.renderInteractionButtons();
+
+        // Comment:
+        //     The callbacks in connections with refreshing by replacing
+        //     creates a memory leak, whose plug would be a more
+        //     sophisticated clear with registration.
     },
-    renderString: function(str, idx) {
-        this.renderContext.children[idx].innerHTML = str;
-    },
-    renderFrame: function(frame, idx) {
-        this.renderContext.children[idx].innerHTML = frame;
+    renderFrame: function(frame, tableCell) {
+        var numberElements = [
+                HTML.createNumber(frame[0], function(n) { frame[0] = n; }),
+                document.createTextNode(' '),
+                HTML.createNumber(frame[1], function(n) { frame[1] = n; })];
+        HTML.replaceContent(tableCell, numberElements);
     },
     renderInteractionButtons: function() {
         var cell = this.renderContext.children[this.renderContext.children.length - 1];
-        while (cell.lastChild) {
-            cell.removeChild(cell.lastChild);
-        }
+        HTML.clear(cell);
         if (this.currentRoll[0] >= 0) {
-            var roll = document.createElement('button');
-            roll.innerHTML = 'roll';
+            var roll = HTML.createElement('button', 'roll');
             roll.addEventListener('click', this.randomRoll.bind(this));
             cell.appendChild(roll);
         }
@@ -136,12 +139,8 @@ updateVisualization = function() {
 // setInterval(updateVisualization, 100);
 
 bowling.createRow = function(optContent) {
-    var tr = document.createElement('tr');
     var length = scores && scores.children[0] && scores.children[0].children.length || 0
-    Array.range(length).forEach(function(ea) {
-        var td = document.createElement('td');
-        td.appendChild(document.createTextNode(optContent && optContent[ea] || ''));
-        tr.appendChild(td);
-    })
-    return tr;
+    return HTML.createElement('tr', Array.range(length).map(function(ea) {
+        return HTML.createElement('td', optContent);
+    }));
 };
